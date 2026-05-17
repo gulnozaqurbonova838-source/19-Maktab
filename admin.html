@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Panel — 19-Maktab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .dash-app { display: none !important; }
+        .admin-auth-loading { display: flex; }
+        body.admin-authenticated .dash-app { display: flex !important; }
+        body.admin-authenticated .admin-auth-loading { display: none !important; }
+    </style>
+</head>
+<body class="dash-body admin-body">
+    <div class="dashboard-auth-loading admin-auth-loading" id="admin-auth-loading" aria-live="polite" aria-busy="true">
+        <div class="dashboard-auth-loading-inner">
+            <span class="dashboard-spinner" aria-hidden="true"></span>
+            <p>Admin huquqi tekshirilmoqda…</p>
+        </div>
+    </div>
+
+    <div class="dash-app" id="admin-app" hidden>
+        <div class="dash-sidebar-overlay" id="admin-sidebar-overlay" hidden></div>
+
+        <aside class="dash-sidebar" id="admin-sidebar">
+            <a href="admin.html" class="dash-sidebar-brand">
+                <span class="dash-sidebar-mark" aria-hidden="true">19</span>
+                <span>
+                    <span class="dash-sidebar-title">19-Maktab</span>
+                    <span class="dash-sidebar-badge">Admin</span>
+                </span>
+            </a>
+            <nav class="dash-nav" aria-label="Admin menyu">
+                <button type="button" class="dash-nav-link is-active" data-admin-view="dashboard">
+                    <svg class="dash-nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 13h7V4H4v9zm9 7h7V11h-7v9zM4 20h7v-5H4v5zm9-12h7V4h-7v4z" stroke="currentColor" stroke-width="1.75"/>
+                    </svg>
+                    Dashboard
+                </button>
+                <button type="button" class="dash-nav-link" data-admin-view="users">
+                    <svg class="dash-nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm12 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                    </svg>
+                    Users
+                </button>
+                <a href="profile.html" class="dash-nav-link">
+                    <svg class="dash-nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm-7 8a7 7 0 0114 0" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                    </svg>
+                    Profile
+                </a>
+                <button type="button" class="dash-nav-link dash-nav-link--logout" id="admin-logout">
+                    <svg class="dash-nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Logout
+                </button>
+            </nav>
+        </aside>
+
+        <div class="dash-main">
+            <header class="dash-topbar">
+                <button type="button" class="dash-menu-toggle" id="admin-menu-toggle" aria-label="Menyuni ochish" aria-expanded="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="dash-topbar-brand">
+                    <span class="dash-topbar-title">19-Maktab</span>
+                    <span class="dash-topbar-sub">Admin panel</span>
+                </div>
+                <div class="dash-topbar-user">
+                    <div class="dash-topbar-user-text">
+                        <span class="dash-topbar-name" id="admin-topbar-name">—</span>
+                        <span class="dash-topbar-email" id="admin-topbar-email">—</span>
+                    </div>
+                    <div class="dash-avatar" aria-hidden="true">
+                        <span id="admin-topbar-initials">—</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="admin-content">
+                <p id="admin-toast" class="admin-toast" role="status" hidden></p>
+
+                <section class="admin-panel is-active" id="admin-panel-dashboard" data-panel="dashboard">
+                    <header class="admin-page-header">
+                        <p class="dash-page-label">Admin</p>
+                        <h1>Dashboard</h1>
+                        <p>Foydalanuvchilar va tizim statistikasi (real-time Firestore).</p>
+                    </header>
+
+                    <div class="dash-stats admin-stats">
+                        <article class="dash-stat-card">
+                            <span class="dash-stat-icon dash-stat-icon--users" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm12 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <div class="dash-stat-body">
+                                <span class="dash-stat-label">Jami foydalanuvchilar</span>
+                                <span class="dash-stat-value" id="admin-stat-total">
+                                    <span class="dash-stat-skeleton" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                        </article>
+                        <article class="dash-stat-card">
+                            <span class="dash-stat-icon dash-stat-icon--session" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3l9 4.5v9L12 21l-9-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <div class="dash-stat-body">
+                                <span class="dash-stat-label">Adminlar</span>
+                                <span class="dash-stat-value" id="admin-stat-admins">
+                                    <span class="dash-stat-skeleton" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                        </article>
+                        <article class="dash-stat-card">
+                            <span class="dash-stat-icon dash-stat-icon--profile" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <div class="dash-stat-body">
+                                <span class="dash-stat-label">Oddiy foydalanuvchilar</span>
+                                <span class="dash-stat-value" id="admin-stat-users">
+                                    <span class="dash-stat-skeleton" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="admin-card">
+                        <h2>Tezkor amallar</h2>
+                        <div class="admin-actions">
+                            <button type="button" class="admin-btn admin-btn--primary" data-admin-goto="users">
+                                Foydalanuvchilarni boshqarish
+                            </button>
+                            <a href="dashboard.html" class="admin-btn admin-btn--ghost">Oddiy dashboard</a>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="admin-panel" id="admin-panel-users" data-panel="users" hidden>
+                    <header class="admin-page-header">
+                        <p class="dash-page-label">Boshqaruv</p>
+                        <h1>Foydalanuvchilar</h1>
+                        <p>Firestore <code>users</code> kolleksiyasi — real-time yangilanish.</p>
+                    </header>
+
+                    <article class="admin-card admin-card--table">
+                        <div class="admin-toolbar">
+                            <p id="admin-users-count">Yuklanmoqda…</p>
+                            <span class="admin-live-badge" id="admin-live-badge" title="Firestore onSnapshot">Live</span>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table" aria-label="Foydalanuvchilar ro‘yxati">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th class="admin-col-uid">UID</th>
+                                        <th>Role</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-tbody">
+                                    <tr class="admin-loading-row">
+                                        <td colspan="6">
+                                            <span class="admin-table-loading">
+                                                <span class="dashboard-spinner" aria-hidden="true"></span>
+                                                Yuklanmoqda…
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-utils.js"></script>
+    <script src="js/user-service.js"></script>
+    <script src="js/auth-session.js"></script>
+    <script src="js/admin-service.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

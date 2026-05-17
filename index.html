@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 <body>
     <nav class="top-nav" aria-label="Asosiy navigatsiya">
@@ -488,6 +489,64 @@
         </div>
     </footer>
 
+    <section id="login" class="auth-screen" aria-labelledby="auth-title" hidden>
+        <main class="auth-main">
+            <div class="auth-card">
+                <div class="auth-brand">
+                    <span class="auth-brand-mark" aria-hidden="true">19</span>
+                    <div>
+                        <h1 id="auth-title">19-Maktab</h1>
+                        <p>Admin panel</p>
+                    </div>
+                </div>
+                <h2 id="auth-heading">Tizimga kirish</h2>
+                <p class="auth-lead">Email va parol bilan kiring yoki yangi hisob yarating.</p>
+
+                <div class="auth-tabs" role="tablist" aria-label="Kirish turi">
+                    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Kirish</button>
+                    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Ro'yxatdan o'tish</button>
+                </div>
+
+                <p id="auth-error" class="auth-error" role="alert" hidden></p>
+                <p id="auth-success" class="auth-success" role="status" hidden></p>
+
+                <form id="auth-login-form" class="auth-form auth-panel is-active" data-auth-panel="login" novalidate>
+                    <div class="auth-field">
+                        <label for="auth-login-email">Email</label>
+                        <input type="email" id="auth-login-email" name="email" autocomplete="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="auth-field">
+                        <label for="auth-login-password">Parol</label>
+                        <input type="password" id="auth-login-password" name="password" autocomplete="current-password" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <button type="submit" class="auth-submit" id="auth-submit">Kirish</button>
+                </form>
+
+                <form id="auth-register-form" class="auth-form auth-panel" data-auth-panel="register" hidden novalidate>
+                    <div class="auth-field">
+                        <label for="auth-register-name">Ism (ixtiyoriy)</label>
+                        <input type="text" id="auth-register-name" name="displayName" autocomplete="name" placeholder="Ismingiz" maxlength="80">
+                    </div>
+                    <div class="auth-field">
+                        <label for="auth-register-email">Email</label>
+                        <input type="email" id="auth-register-email" name="email" autocomplete="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="auth-field">
+                        <label for="auth-register-password">Parol</label>
+                        <input type="password" id="auth-register-password" name="password" autocomplete="new-password" placeholder="Kamida 6 ta belgi" required minlength="6">
+                    </div>
+                    <div class="auth-field">
+                        <label for="auth-register-confirm">Parolni tasdiqlang</label>
+                        <input type="password" id="auth-register-confirm" name="confirmPassword" autocomplete="new-password" placeholder="Parolni qayta kiriting" required minlength="6">
+                    </div>
+                    <button type="submit" class="auth-submit auth-submit--register">Ro'yxatdan o'tish</button>
+                </form>
+
+                <a href="#home" class="auth-back" id="auth-back-home">← Bosh sahifaga qaytish</a>
+            </div>
+        </main>
+    </section>
+
     <div id="ai-chat" class="ai-chat" aria-live="polite">
         <button
             type="button"
@@ -548,6 +607,15 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-utils.js"></script>
+    <script src="js/user-service.js"></script>
+    <script src="js/auth-session.js"></script>
+    <script src="js/auth-forms.js"></script>
+    <script src="js/index-auth.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
