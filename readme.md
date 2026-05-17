@@ -19,7 +19,6 @@
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 <br/>
 
@@ -182,10 +181,10 @@ Ushbu loyiha faqat oddiy veb-sayt emas — bu maktabning **ruhi, qadriyatlari va
 <td>⭐⭐⭐⭐</td>
 </tr>
 <tr>
-<td><img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=bootstrap&logoColor=white" alt="Bootstrap"/></td>
-<td><code>v5.x</code></td>
-<td>Responsive grid va UI komponentlar</td>
-<td>⭐⭐⭐⭐⭐</td>
+<td><img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel"/></td>
+<td><code>Serverless</code></td>
+<td>Aloqa formasi (Telegram API proxy)</td>
+<td>⭐⭐⭐⭐</td>
 </tr>
 <tr>
 <td><img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git"/></td>
@@ -209,29 +208,16 @@ Ushbu loyiha faqat oddiy veb-sayt emas — bu maktabning **ruhi, qadriyatlari va
 ## 🗂️ Loyiha Tuzilishi
 
 ```
-📁 19-maktab/
+📁 19-MAKTAB/
 │
-├── 📄 index.html              ← Asosiy sahifa (Hero + Nav)
-│
-├── 📁 pages/
-│   ├── 📄 services.html       ← Innovatsion darslar
-│   ├── 📄 structure.html      ← Maktab tuzilishi
-│   └── 📄 contact.html        ← Bog'lanish sahifasi
-│
-├── 📁 css/
-│   ├── 🎨 style.css           ← Asosiy uslublar
-│   ├── 🌀 animations.css      ← Animatsiyalar
-│   └── 💎 glassmorphism.css   ← Shisha effektlari
-│
-├── 📁 js/
-│   ├── ⚡ main.js             ← Asosiy skriptlar
-│   └── 🔀 scroll.js           ← Scroll animatsiyalar
-│
-├── 📁 assets/
-│   ├── 🖼️ images/             ← Rasm fayllari
-│   └── 🔤 fonts/              ← Maxsus shriftlar
-│
-└── 📄 README.md               ← Siz hozir bu faylni o'qiyapsiz 😊
+├── 📄 index.html              ← Bitta sahifali sayt (barcha bo'limlar)
+├── 🎨 style.css               ← Dizayn, dark mode, animatsiyalar
+├── ⚡ script.js               ← Navigatsiya, forma, scroll effektlar
+├── 📁 api/
+│   └── 📄 contact.js          ← Telegram xabar (serverda, token yashirin)
+├── 📄 .env.example            ← Telegram sozlamalari namunasi
+├── 📄 package.json            ← `vercel dev` uchun
+└── 📄 readme.md
 ```
 
 <br/>
@@ -259,12 +245,27 @@ cd 19-maktab
 ### 🌐 2-Qadam: Brauzerda ochish
 
 ```bash
-# Oddiy usul — to'g'ridan-to'g'ri ochish
-open index.html
-
-# YOKI — VS Code Live Server orqali (tavsiya etiladi)
-# VS Code da o'ng tugma → "Open with Live Server"
+# Oddiy ko'rish — index.html ni brauzerda oching
+# VS Code: o'ng tugma → "Open with Live Server"
 ```
+
+### 📬 2b-Qadam: Aloqa formasi (Telegram)
+
+Token brauzerda emas, serverda saqlanadi. [Vercel](https://vercel.com) ga deploy qiling va **Environment Variables** qo'shing:
+
+- `TELEGRAM_BOT_TOKEN` — [@BotFather](https://t.me/BotFather) dan **yangi** token (eskisi ochilgan bo'lsa, revoke qiling)
+- `TELEGRAM_CHAT_ID` — xabarlarni qabul qiladigan chat ID
+
+Mahalliy sinov:
+
+```bash
+npm i -g vercel
+cp .env.example .env.local
+# .env.local ni to'ldiring, keyin:
+vercel dev
+```
+
+> GitHub Pages faqat statik fayllarni xizmat qiladi — forma uchun Vercel (yoki boshqa serverless hosting) kerak.
 
 ### 🔄 3-Qadam: Git bilan ishlash (agar o'zgartirsangiz)
 
@@ -341,7 +342,7 @@ Salom! Men Muhammad — ta'lim muassasalari uchun raqamli yechimlar yaratishga i
 
 | Soha | Texnologiyalar |
 |------|----------------|
-| 🎨 Frontend | HTML5, CSS3, JavaScript, Bootstrap |
+| 🎨 Frontend | HTML5, CSS3, JavaScript (vanilla) |
 | 🔧 Versioning | Git, GitHub |
 | 🎯 Maqsad | Ta'lim uchun eng yaxshi raqamli tajriba |
 

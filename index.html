@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>19-Maktab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Asosiy navigatsiya">
         <div class="nav-container">
             <div class="logo">
                 <div class="logo-mark">19</div>
@@ -16,40 +19,48 @@
                     <span>Ilm + Zamonaviylik</span>
                 </div>
             </div>
-            <button class="nav-toggle" aria-label="Menyu ochish">
-                <span></span>
-                <span></span>
+            <button class="nav-toggle" type="button" aria-label="Menyu ochish" aria-controls="nav-list" aria-expanded="false">
                 <span></span>
             </button>
-            <ul class="nav-links">
+            <button class="theme-toggle" type="button" aria-label="Tungi rejim" title="Tungi rejim">
+                <span class="theme-icon">🌙</span>
+            </button>
+            <ul id="nav-list" class="nav-links">
                 <li><a href="#home">HOME</a></li>
                 <li><a href="#about">HAQIDA</a></li>
-                <li><a href="#services">XIZMATLAR</a></li>
+                <li><a href="#news">YANGILIKLAR</a></li>
+                <li><a href="#schedule">JADVAL</a></li>
                 <li><a href="#contact">ALOQA</a></li>
-                <li><a href="#location">JOYLASHUV</a></li>
             </ul>
         </div>
     </nav>
 
+    <main>
     <section id="home" class="hero">
         <div class="hero-content">
-            <h2>Xush Kelibsiz</h2>
-            <p>Sizning orzularingizni ushaltiruvchi maktab</p>
+            <small>Kelajakni boshlang</small>
+            <h1>19-Maktabda ilm va yetakchilik bugundan o‘sadi</h1>
+            <p>O‘quvchilarga zamonaviy ta’lim, ijodiy va ishonchli muhit hamda kelajak uchun mustahkam poydevor.</p>
             <div class="hero-buttons">
                 <a href="#about" class="btn btn-primary">Batafsil</a>
-                <a href="#location" class="btn btn-secondary">Joylashuv</a>
+                <a href="#contact" class="btn btn-secondary">Bog'lanish</a>
             </div>
         </div>
     </section>
 
-    <section id="about" class="about-section">
-        <div class="nav-container about-content">
-            <div class="about-intro">
+    <section id="about" class="page-section page-section--soft about-section">
+        <div class="page-container page-stack">
+            <header class="section-header">
                 <span class="section-label">19-MAKTAB HAQIDA</span>
                 <h2>Ilm, zamonaviylik va mehr</h2>
-                <p>19-maktab — bu shunchaki ta’lim maskani emas, balki har bir o‘quvchining orzulari qanot qoqadigan, kelajak poydevori mustahkam quriladigan muqaddas maskandir. Bu yerda zamonaviy binolar, ijodiy muhit va mehribon ustozlar birlashib, har bir talabaning yetuk shaxs sifatida rivojlanishini ta’minlaydi.</p>
-            </div>
-            <div class="about-cards">
+                <p>19-maktab — har bir o‘quvchining orzulari qanot qoqadigan, zamonaviy binolar, ijodiy muhit va mehribon ustozlar bilan rivojlanadigan maskan.</p>
+            </header>
+            <div class="content-block">
+                <header class="subsection-header">
+                    <span class="section-label">Asosiy qadriyatlar</span>
+                    <h3>Nima uchun 19-maktab?</h3>
+                </header>
+                <div class="about-cards">
                 <article class="about-card">
                     <div class="card-icon">🌟</div>
                     <h3>Zamonaviy va yorug‘ makon</h3>
@@ -66,17 +77,15 @@
                     <p>Ustozlar nafaqat fan bo‘yicha mutaxassis, balki o‘quvchilarga ota-onadek yaqin murabbiylar bo‘lib xizmat qiladi.</p>
                 </article>
             </div>
-        </div>
-    </section>
-
-    <section class="team-section">
-        <div class="nav-container team-content">
-            <div class="section-header">
-                <span class="section-label">USTOZLAR JAMOASI</span>
-                <h2>19-maktabning mehribon murabbiylari</h2>
-                <p>Har bir ustoz o‘z fanida yetakchi, har bir dars esa o‘quvchiga ilhom beradi.</p>
             </div>
-            <div class="team-cards">
+
+            <div id="team" class="content-block">
+                <header class="subsection-header">
+                    <span class="section-label">Ustozlar jamoasi</span>
+                    <h3>Mehribon murabbiylar</h3>
+                    <p>Har bir ustoz o‘z fanida yetakchi, har bir dars esa o‘quvchiga ilhom beradi.</p>
+                </header>
+                <div class="team-cards">
                 <article class="team-card">
                     <div class="team-avatar">A</div>
                     <h3>Adolat M.</h3>
@@ -93,16 +102,14 @@
                     <p>Ona tili va adabiyot fani bo‘yicha ijodiy yondashuvli ustoz.</p>
                 </article>
             </div>
-        </div>
-    </section>
-
-    <section id="services" class="services-section">
-        <div class="nav-container services-content">
-            <div class="section-header">
-                <span class="section-label">Xizmatlar</span>
-                <h2>19-maktabda taqdim etiladigan xizmatlar</h2>
-                <p>Biz talabalar uchun sifatli ta'lim, zamonaviy laboratoriyalar va rivojlanish imkoniyatlarini taklif etamiz.</p>
             </div>
+
+            <div id="services" class="content-block">
+                <header class="subsection-header">
+                    <span class="section-label">Xizmatlar</span>
+                    <h3>Ta'lim va rivojlanish</h3>
+                    <p>Sifatli ta'lim, zamonaviy laboratoriyalar va rivojlanish imkoniyatlari.</p>
+                </header>
             <div class="service-cards">
                 <article class="service-card">
                     <h3>Innovatsion darslar</h3>
@@ -117,16 +124,14 @@
                     <p>Sport zallari va san’at maskanlari har bir o‘quvchining sog‘lom hayot tarzini qo‘llab-quvvatlaydi.</p>
                 </article>
             </div>
-        </div>
-    </section>
-
-    <section class="testimonials-section">
-        <div class="nav-container testimonials-content">
-            <div class="section-header">
-                <span class="section-label">TAVSIYALAR</span>
-                <h2>Ota-onalar va o‘quvchilarimiz nima deyishadi</h2>
             </div>
-            <div class="testimonial-grid">
+
+            <div id="testimonials" class="content-block">
+                <header class="subsection-header">
+                    <span class="section-label">Tavsiyalar</span>
+                    <h3>Ota-onalar va o‘quvchilarimiz fikri</h3>
+                </header>
+                <div class="testimonial-grid">
                 <article class="testimonial-card">
                     <p>“19-maktabning ustozlari bolalar bilan chin qalbdan ishlaydi. Mening o‘g‘lim yangi imkoniyatlar topdi va fanlarga qiziqishi oshdi.”</p>
                     <strong>Ona: Malika</strong>
@@ -140,11 +145,103 @@
                     <strong>Ota: Jasur</strong>
                 </article>
             </div>
+            </div>
         </div>
     </section>
 
-    <section id="contact" class="contact-section">
-        <div class="nav-container contact-content">
+    <section id="news" class="page-section page-section--soft news-section">
+        <div class="page-container page-stack">
+            <header class="section-header">
+                <span class="section-label">E'lonlar</span>
+                <h2>Maktab yangiliklari va e'lonlari</h2>
+                <p>O'quv jarayoni, tadbirlar va muhim yangiliklar haqida dolzarb ma'lumotlar.</p>
+            </header>
+            <div class="news-grid">
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-09-01">1 sentyabr 2026</time>
+                    <h3>Yangi o'quv yili boshlanishi</h3>
+                    <p>2026–2027 o'quv yili 1-sentabr kuni tantanali ochilish marosimi bilan boshlanadi.</p>
+                </article>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-04-20">20 aprel 2026</time>
+                    <h3>Fan olimpiadasi natijalari</h3>
+                    <p>Maktabimiz o'quvchilari viloyat bosqichidagi fan olimpiadasida yuqori natijalar ko'rsatdi.</p>
+                </article>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-05-10">10 may 2026</time>
+                    <h3>Ota-onalar yig'ilishi</h3>
+                    <p>III chorak yakuni bo'yicha ota-onalar yig'ilishi 10-may kuni soat 15:00 da bo'lib o'tadi.</p>
+                </article>
+                <article class="news-card">
+                    <time class="news-date" datetime="2026-03-05">5 mart 2026</time>
+                    <h3>Bahor sport musobaqasi</h3>
+                    <p>Maktablararo sport musobaqasi 5–7-mart kunlari maktab sport maydonchasida o'tkaziladi.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="schedule" class="page-section schedule-section" aria-labelledby="schedule-heading">
+        <div class="page-container page-stack">
+            <header class="section-header">
+                <span class="section-label">Dars jadvali</span>
+                <h2 id="schedule-heading">Maktab dars jadvali</h2>
+                <p>Haftalik darslar tartibi. Vaqt va fanlar bo'yicha reja bilan tanishing.</p>
+            </header>
+            <div class="schedule-grid">
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Dushanba</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Matematika</span><span class="schedule-class">5-A sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Ona tili</span><span class="schedule-class">5-A sinf</span></div></li>
+                    </ul>
+                </article>
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Seshanba</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Biologiya</span><span class="schedule-class">6-B sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Adabiyot</span><span class="schedule-class">8-V sinf</span></div></li>
+                    </ul>
+                </article>
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Chorshanba</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Matematika</span><span class="schedule-class">7-A sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Informatika</span><span class="schedule-class">6-B sinf</span></div></li>
+                    </ul>
+                </article>
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Payshanba</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Fizika</span><span class="schedule-class">7-A sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Ingliz tili</span><span class="schedule-class">5-A sinf</span></div></li>
+                    </ul>
+                </article>
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Juma</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Kimyo</span><span class="schedule-class">8-V sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Biologiya</span><span class="schedule-class">5-A sinf</span></div></li>
+                    </ul>
+                </article>
+                <article class="schedule-day">
+                    <h3 class="schedule-day-title">Shanba</h3>
+                    <ul class="schedule-lessons">
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="08:30">08:30</time><div class="schedule-lesson-info"><span class="schedule-subject">Qo'shimcha matematika</span><span class="schedule-class">7-A sinf</span></div></li>
+                        <li class="schedule-lesson"><time class="schedule-time" datetime="09:20">09:20</time><div class="schedule-lesson-info"><span class="schedule-subject">Sport mashg'ulotlari</span></div></li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="page-section contact-section" aria-labelledby="contact-heading">
+        <div class="page-container page-stack">
+            <header class="section-header">
+                <span class="section-label">Aloqa va fikr-mulohaza</span>
+                <h2 id="contact-heading">Biz bilan bog'laning</h2>
+                <p>Savol, taklif yoki fikr-mulohazangizni yuboring.</p>
+            </header>
             <div class="contact-grid">
                 <div class="contact-info">
                     <span class="section-label">ALOQA</span>
@@ -167,20 +264,25 @@
                     <button type="submit" class="btn btn-primary">Yuborish</button>
                 </form>
             </div>
+            <div id="location" class="content-block location-block">
+                <header class="subsection-header location-header">
+                    <span class="section-label">Joylashuv</span>
+                    <h3>Maktab manzili</h3>
+                    <p>Chirchiq shahri, Yangi O'zbekiston massivi. Quyidagi xaritada aniq joylashuvni ko'ring.</p>
+                </header>
+                <div class="location-map">
+                    <iframe
+                        title="19-Maktab joylashuvi xaritada"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps?q=Chirchiq+Yangi+O%27zbekiston+massivi+19-maktab&output=embed"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="location" class="location-section">
-        <div class="nav-container location-content">
-            <div class="location-header">
-                <h2>Joylashuv</h2>
-                <p>Bizning maktab Chirchiq shahri, Yangi O'zbekiston massivi manzilida joylashgan. Quyidagi xaritada maktabimizning aniq joylashuvi ko‘rsatilgan.</p>
-            </div>
-            <div class="location-map">
-                <iframe src="https://www.google.com/maps?q=chirchiq+Yangi+Uzbekisat+massivi+19-maktab&output=embed"></iframe>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <footer class="site-footer">
         <div class="nav-container footer-grid">
@@ -193,9 +295,9 @@
                 <h3>Tezkor havolalar</h3>
                 <a href="#home">HOME</a>
                 <a href="#about">HAQIDA</a>
-                <a href="#services">XIZMATLAR</a>
+                <a href="#news">YANGILIKLAR</a>
+                <a href="#schedule">JADVAL</a>
                 <a href="#contact">ALOQA</a>
-                <a href="#location">JOYLASHUV</a>
             </div>
             <div class="footer-contact">
                 <h3>Biz bilan bog‘laning</h3>
@@ -210,7 +312,5 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <hr>
 </body>
 </html>

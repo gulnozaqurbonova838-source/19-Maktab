@@ -1,0 +1,8 @@
+{
+  "name": "19-maktab",
+  "private": true,
+  "description": "19-Maktab rasmiy veb-sayti",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}
