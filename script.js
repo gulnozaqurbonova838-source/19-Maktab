@@ -88,6 +88,7 @@ class ScrollAnimations {
             '.testimonial-grid',
             '.news-grid',
             '.schedule-grid',
+            '.gallery-grid',
         ];
 
         gridSelectors.forEach((selector) => {
@@ -215,6 +216,373 @@ class MicroInteractions {
     }
 }
 
+// Gallery lightbox
+class GalleryLightbox {
+    constructor() {
+        this.lightbox = document.getElementById('gallery-lightbox');
+        this.triggers = document.querySelectorAll('.gallery-trigger');
+        if (!this.lightbox || !this.triggers.length) {
+            return;
+        }
+
+        this.imageEl = this.lightbox.querySelector('.gallery-lightbox__image');
+        this.captionEl = this.lightbox.querySelector('.gallery-lightbox__caption');
+        this.closeButtons = this.lightbox.querySelectorAll('[data-gallery-close]');
+        this.prevButton = this.lightbox.querySelector('[data-gallery-prev]');
+        this.nextButton = this.lightbox.querySelector('[data-gallery-next]');
+        this.currentIndex = 0;
+        this.lastFocused = null;
+
+        this.slides = Array.from(this.triggers).map((trigger) => {
+            const img = trigger.querySelector('img');
+            const caption = trigger.querySelector('.gallery-caption');
+            return {
+                src: img?.dataset.fullSrc || img?.src || '',
+                alt: img?.alt || '',
+                caption: caption?.textContent?.trim() || img?.alt || '',
+            };
+        });
+
+        this.triggers.forEach((trigger, index) => {
+            trigger.addEventListener('click', () => this.open(index));
+        });
+
+        this.closeButtons.forEach((btn) => {
+            btn.addEventListener('click', () => this.close());
+        });
+
+        this.prevButton?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.show(this.currentIndex - 1);
+        });
+
+        this.nextButton?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.show(this.currentIndex + 1);
+        });
+
+        this.lightbox.addEventListener('keydown', (e) => this.onKeydown(e));
+    }
+
+    open(index) {
+        this.lastFocused = document.activeElement;
+        this.show(index);
+        this.lightbox.classList.add('is-open');
+        this.lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('gallery-lightbox-open');
+        this.closeButtons[0]?.focus();
+    }
+
+    close() {
+        this.lightbox.classList.remove('is-open');
+        this.lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('gallery-lightbox-open');
+        this.lastFocused?.focus();
+    }
+
+    show(index) {
+        const total = this.slides.length;
+        if (!total) {
+            return;
+        }
+        this.currentIndex = ((index % total) + total) % total;
+        const slide = this.slides[this.currentIndex];
+        if (this.imageEl) {
+            this.imageEl.src = slide.src;
+            this.imageEl.alt = slide.alt;
+        }
+        if (this.captionEl) {
+            this.captionEl.textContent = slide.caption;
+        }
+        if (this.prevButton) {
+            this.prevButton.hidden = total <= 1;
+        }
+        if (this.nextButton) {
+            this.nextButton.hidden = total <= 1;
+        }
+    }
+
+    onKeydown(event) {
+        if (this.lightbox.getAttribute('aria-hidden') === 'true') {
+            return;
+        }
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            this.close();
+        } else if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            this.show(this.currentIndex - 1);
+        } else if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            this.show(this.currentIndex + 1);
+        }
+    }
+}
+
+// AI chat assistant (frontend-only, predefined responses)
+class AIChatAssistant {
+    constructor() {
+        this.root = document.getElementById('ai-chat');
+        if (!this.root) {
+            return;
+        }
+
+        this.panel = document.getElementById('ai-chat-panel');
+        this.toggle = document.getElementById('ai-chat-toggle');
+        this.closeBtn = this.root.querySelector('[data-chat-close]');
+        this.messagesEl = document.getElementById('ai-chat-messages');
+        this.form = document.getElementById('ai-chat-form');
+        this.input = document.getElementById('ai-chat-input');
+        this.chips = this.root.querySelectorAll('[data-chat-suggest]');
+        this.isOpen = false;
+        this.isBusy = false;
+        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.typingMs = this.reducedMotion ? 500 : 1200;
+        this.replyMs = this.reducedMotion ? 300 : 500;
+
+        this.responses = {
+            schedule: [
+                'Haftalik dars jadvali (namuna):',
+                '',
+                'Dushanba — 08:30 Matematika (5-A), 09:20 Ona tili (5-A)',
+                'Seshanba — 08:30 Biologiya (6-B), 09:20 Adabiyot (8-V)',
+                'Chorshanba — 08:30 Matematika (7-A), 09:20 Informatika (6-B)',
+                'Payshanba — 08:30 Fizika (7-A), 09:20 Ingliz tili (5-A)',
+                'Juma — 08:30 Kimyo (8-V), 09:20 Biologiya (5-A)',
+                'Shanba — 08:30 Qo‘shimcha matematika (7-A), 09:20 Sport mashg‘ulotlari',
+                '',
+                'To‘liq jadval uchun saytdagi «JADVAL» bo‘limiga o‘ting.',
+            ].join('\n'),
+            news: [
+                'So‘nggi yangiliklar va e’lonlar:',
+                '',
+                '• 1 sentyabr 2026 — Yangi o‘quv yili tantanali ochilish marosimi bilan boshlanadi.',
+                '• 20 aprel 2026 — Fan olimpiadasi: maktab o‘quvchilari viloyat bosqichida yuqori natija ko‘rsatdi.',
+                '• 10 may 2026 — III chorak yakuni bo‘yicha ota-onalar yig‘ilishi, soat 15:00.',
+                '• 5–7 mart 2026 — Maktablararo bahor sport musobaqasi sport maydonchasida.',
+                '',
+                'Batafsil ma’lumot uchun «YANGILIKLAR» bo‘limini ko‘ring.',
+            ].join('\n'),
+            contact: [
+                'Biz bilan bog‘lanish:',
+                '',
+                'Manzil: Chirchiq shahri, Yangi O‘zbekiston massivi',
+                'Telefon: +998 71 123 45 67',
+                'Email: info@19maktab.uz',
+                '',
+                'Savol yoki taklif uchun saytdagi «ALOQA» bo‘limidagi forma orqali xabar yuborishingiz mumkin.',
+            ].join('\n'),
+            greeting: 'Assalomu alaykum! Men 19-Maktab AI yordamchisiman. Dars jadvali, yangiliklar yoki aloqa haqida yozing — yordam beraman.',
+            default: [
+                'Kechirasiz, bu savolga aniq javobim yo‘q. Quyidagilardan birini so‘rashingiz mumkin:',
+                '',
+                '• Dars jadvali (masalan: «Dushanba darslari»)',
+                '• Yangiliklar va e’lonlar',
+                '• Aloqa: telefon, email, manzil',
+                '',
+                'Yoki pastdagi tezkor tugmalardan foydalaning.',
+            ].join('\n'),
+        };
+
+        this.matchRules = [
+            {
+                test: (t) => /salom|assalom|hello|hi|rahmat|yordamchi/.test(t),
+                key: 'greeting',
+            },
+            {
+                test: (t) =>
+                    /jadval|dars|schedule|dushanba|seshanba|chorshanba|payshanba|juma|shanba|soat|matematika|fizika|kimyo|biologiya|informatika|sport/.test(
+                        t
+                    ),
+                key: 'schedule',
+            },
+            {
+                test: (t) =>
+                    /yangilik|e'lon|e’lon|e`lon|news|olimpiada|yig'ilish|yig‘ilishi|sport musobaqa|sentabr|mart|aprel|may|chorak|o'quv yili|o‘quv yili/.test(
+                        t
+                    ),
+                key: 'news',
+            },
+            {
+                test: (t) =>
+                    /aloqa|bog'lan|bog‘lan|contact|telefon|email|manzil|forma|xabar|fikr|joylashuv|qayerda|manzil/.test(
+                        t
+                    ),
+                key: 'contact',
+            },
+        ];
+
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        this.toggle?.addEventListener('click', () => this.togglePanel());
+        this.closeBtn?.addEventListener('click', () => this.close());
+        this.form?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleUserMessage(this.input?.value ?? '');
+        });
+        this.chips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                const text = chip.getAttribute('data-chat-suggest') ?? chip.textContent ?? '';
+                this.handleUserMessage(text);
+            });
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.close();
+            }
+        });
+    }
+
+    togglePanel() {
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+
+    open() {
+        this.isOpen = true;
+        this.root.classList.add('is-open');
+        this.panel?.setAttribute('aria-hidden', 'false');
+        this.toggle?.setAttribute('aria-expanded', 'true');
+        this.input?.focus();
+    }
+
+    close() {
+        this.isOpen = false;
+        this.root.classList.remove('is-open');
+        this.panel?.setAttribute('aria-hidden', 'true');
+        this.toggle?.setAttribute('aria-expanded', 'false');
+        this.toggle?.focus();
+    }
+
+    getReply(text) {
+        const normalized = text
+            .toLowerCase()
+            .normalize('NFKC')
+            .replace(/[''`]/g, "'");
+
+        for (const rule of this.matchRules) {
+            if (rule.test(normalized)) {
+                return this.responses[rule.key];
+            }
+        }
+        return this.responses.default;
+    }
+
+    appendMessage(role, text) {
+        if (!this.messagesEl) {
+            return;
+        }
+
+        const row = document.createElement('div');
+        row.className = `ai-chat-message ai-chat-message--${role}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'ai-chat-avatar';
+        avatar.setAttribute('aria-hidden', 'true');
+        avatar.textContent = role === 'user' ? 'Siz' : 'AI';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'ai-chat-bubble';
+        const paragraph = document.createElement('p');
+        paragraph.textContent = text;
+        bubble.appendChild(paragraph);
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+        this.messagesEl.appendChild(row);
+        this.scrollToBottom();
+    }
+
+    showTyping() {
+        if (!this.messagesEl) {
+            return null;
+        }
+
+        const row = document.createElement('div');
+        row.className = 'ai-chat-message ai-chat-message--assistant ai-chat-message--typing';
+        row.setAttribute('data-typing', 'true');
+
+        const avatar = document.createElement('div');
+        avatar.className = 'ai-chat-avatar';
+        avatar.setAttribute('aria-hidden', 'true');
+        avatar.textContent = 'AI';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'ai-chat-bubble';
+        bubble.innerHTML = `
+            <span class="ai-chat-typing" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="ai-chat-typing-label">AI yozmoqda...</span>
+        `;
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+        this.messagesEl.appendChild(row);
+        this.scrollToBottom();
+        return row;
+    }
+
+    hideTyping(node) {
+        node?.remove();
+    }
+
+    scrollToBottom() {
+        if (this.messagesEl) {
+            this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+        }
+    }
+
+    setBusy(busy) {
+        this.isBusy = busy;
+        if (this.input) {
+            this.input.disabled = busy;
+        }
+        const sendBtn = this.form?.querySelector('.ai-chat-send');
+        if (sendBtn) {
+            sendBtn.disabled = busy;
+        }
+        this.chips.forEach((chip) => {
+            chip.disabled = busy;
+        });
+    }
+
+    async handleUserMessage(rawText) {
+        const text = rawText.trim();
+        if (!text || this.isBusy) {
+            return;
+        }
+
+        if (!this.isOpen) {
+            this.open();
+        }
+
+        this.appendMessage('user', text);
+        if (this.input) {
+            this.input.value = '';
+        }
+
+        this.setBusy(true);
+        const typingNode = this.showTyping();
+
+        await new Promise((resolve) => {
+            window.setTimeout(resolve, this.typingMs);
+        });
+
+        this.hideTyping(typingNode);
+
+        await new Promise((resolve) => {
+            window.setTimeout(resolve, this.replyMs);
+        });
+
+        this.appendMessage('assistant', this.getReply(text));
+        this.setBusy(false);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Dark Mode
     const darkModeManager = new DarkModeManager();
@@ -222,6 +590,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize animations & micro-interactions
     new ScrollAnimations();
     new MicroInteractions();
+    new GalleryLightbox();
+    new AIChatAssistant();
 
     document.body.classList.add('loaded');
 
